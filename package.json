@@ -4,8 +4,7 @@
   "description": "App to generate zip file with Google search results",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "node node_modules/puppeteer/install.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
