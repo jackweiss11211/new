@@ -1,6 +1,5 @@
 const express = require('express');
-const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer');
 const archiver = require('archiver');
 const cors = require('cors');
 const path = require('path');
@@ -28,13 +27,13 @@ app.post('/search', async (req, res) => {
     }
 
     try {
-        // Launch browser with chrome-aws-lambda
+        // Launch browser with minimal configuration
         const browser = await puppeteer.launch({
-            args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath,
-            headless: chromium.headless,
-            ignoreHTTPSErrors: true,
+            headless: 'new',
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+            ]
         });
         const page = await browser.newPage();
         
