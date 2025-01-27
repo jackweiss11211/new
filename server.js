@@ -30,6 +30,7 @@ app.post('/search', async (req, res) => {
         // Launch browser with deployment-friendly configuration
         const browser = await puppeteer.launch({
             headless: "new",
+            executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome',
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
