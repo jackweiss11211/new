@@ -1,5 +1,6 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
+const chromium = require('chrome-aws-lambda');
 const archiver = require('archiver');
 const cors = require('cors');
 const path = require('path');
@@ -27,18 +28,13 @@ app.post('/search', async (req, res) => {
     }
 
     try {
-        // Launch browser with deployment-friendly configuration
+        // Launch browser with chrome-aws-lambda
         const browser = await puppeteer.launch({
-            headless: "new",
-            executablePath: process.env.CHROME_BIN || '/usr/bin/google-chrome',
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--disable-gpu',
-                '--window-size=1280,800'
-            ]
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true,
         });
         const page = await browser.newPage();
         
